@@ -41,6 +41,7 @@ class ImageFade extends StatefulWidget {
 
     this.loadingBuilder,
     this.errorBuilder,
+    this.onComplete,
   }) : 
       super(key: key);
 
@@ -86,6 +87,8 @@ class ImageFade extends StatefulWidget {
   /// A builder that specifies the widget to display if an error occurs while an image is loading.
   /// This will be faded in over previous content, so you may want to set an opaque background on it.
   final ImageFadeErrorBuilder errorBuilder;
+
+  final Function() onComplete;
 
   @override
   State<StatefulWidget> createState() => _ImageFadeState();
@@ -219,6 +222,10 @@ class _ImageFadeState extends State<ImageFade> with TickerProviderStateMixin {
   void _handleComplete(_ImageResolver resolver) {
     _front = resolver.success ? _getImage(resolver.image)
       : widget.errorBuilder?.call(context, _front, resolver.exception);
+    
+    if(widget.onComplete != null)
+      widget.onComplete();
+      
     _buildTransition();
   }
 
