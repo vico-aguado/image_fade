@@ -164,7 +164,11 @@ class _ImageResolver {
   }
 }
 
-class _ImageFadeState extends State<ImageFade> with TickerProviderStateMixin {
+class _ImageFadeState extends State<ImageFade> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+  
+  @override
+  bool get wantKeepAlive => true;
+  
   _ImageResolver _resolver;
   Widget _front;
   Widget _back;
